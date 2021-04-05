@@ -159,7 +159,6 @@ namespace MvcActor.Models
                         string[] names = ((string)item["name"]).Split(" ");
                         context.Actor.Add(
                         new Actor {
-                            ActorId =(int)item["id"],
                             LastName = names[names.Length - 1],
                             FirstName = String.Join(" ", names.Take(names.Length - 1)),
                         }
