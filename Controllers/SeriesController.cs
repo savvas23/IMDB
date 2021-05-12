@@ -1,7 +1,10 @@
 using System.Threading.Tasks;
+using IMDB.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MvcSeries.Data;
+using MvcSeries.Models;
+using System.Linq;
 
 namespace IMDB.Controllers
 {
@@ -15,9 +18,14 @@ namespace IMDB.Controllers
         }
 
         // GET: Series
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            return View(await _context.Series.ToListAsync());
+            var series = from s in _context.Series
+                         select s;
+
+            int pageSize = 16;
+            //return View(await _context.Series.ToListAsync());
+             return View(await PaginatedList<Series>.CreateAsync(series.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Series/Details/5
